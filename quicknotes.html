@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<title>Quick Note</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="theme/default/style/lms_dragdrop.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.4.3.js"></script>
+<script type="text/javascript" src="js/lms.js"></script>
+<script type="text/javascript" src="js/lms_dragdrop.js"></script>
+<script type="text/javascript" src="js/quicknotes.js"></script>
+</head>
+<body>
+<style type="text/css">
+      body{
+         background-image: url(theme/default/images/stick_board.png);
+      }
+      .dragbox,
+      .newnote{
+         background-color: rgb(255, 240, 70);
+         min-height: 250px;
+         padding: 10px;
+         position: absolute;
+         width: 200px;
+         box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
+         -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
+      }
+      .edit{
+        min-height: 20px;
+        width: 100%;
+        outline: none;
+      }
+
+      #recycle_bin{
+          float: right;
+          height: 184px;
+          width: 170px;
+          background-image: url('theme/default/images/recycle_bin.png');
+      }
+    </style>
+    
+    <script type="text/javascript">
+        $(function(){
+            $(document).bind('click touchstart', function(event){
+                activeNote = false;
+            });
+
+            setInterval(function(){
+                if (activeNote != false && activeNote.html() != ''){
+                    saveNote();
+                }
+            }, 1000);
+
+
+            DragDrop = ORPLMS.create(ORPLMS.DragDrop.className, {});
+
+            DragDrop.init();
+            
+            var note_1 = $('<div class="newnote" id="note_1"></div>');
+            var note_2 = $('<div class="newnote" id="note_2"></div>');
+            var note_3 = $('<div class="newnote" id="note_3"></div>');
+            note_1.offset({top:-200, left: 50});
+            note_2.offset({top:-200, left: 300});
+            note_3.offset({top:-200, left: 550});
+            note_1.css('background-color', '#FFFF33');
+            note_2.css('background-color', '#FFCCFF');
+            note_3.css('background-color', '#99FFFF');
+            $('body').append(note_1);
+            $('body').append(note_2);
+            $('body').append(note_3);
+
+            //Add this 3 lines for IE
+            $('#note_1').offset({top:-200, left: 50});
+            $('#note_2').offset({top:-200, left: 300});
+            $('#note_3').offset({top:-200, left: 550});
+
+            var drag_option = {
+                multiSelect: false,
+                drag_end: function(data){
+                    for (var i=0; i<data.length; i++){
+                        var to_create = false;
+                        var divObj = data[i];
+                        var x = divObj.offset().left,
+                            y = divObj.offset().top;
+                        if (divObj.offset().top>50){
+                            to_create = true;
+                        }
+                        if (divObj.attr('id')=='note_1'){
+                            divObj.offset({top:-200, left: 50});
+                        }else if (divObj.attr('id')=='note_2'){
+                            divObj.offset({top:-200, left: 300});
+                        }else{
+                            divObj.offset({top:-200, left: 550});
+                        }
+
+                        if (to_create){
+                            var note = newNote(x, y, divObj.css('background-color'));
+                        }
+                    }
+                }
+            };
+
+            DragDrop.enableDrag('.newnote', drag_option);
+            
+            //load notes from server.
+            var notes = loadNote();
+            if (notes.success && notes.data.length>0){
+                for (var i=0; i<notes.data.length; i++){
+                    var n = notes.data[i];
+                    var note = newNote(n.px, n.py, n.color, n.content, n.noteid);
+                }
+                //return;
+            } else {
+                newNote(50, 100);
+                $('#edit0').html('+ Drag to recycle bin or above top border to delete it. <br>+ Drag top notes out to write a new one. <br>+ Click text to edit');
+            }
+            //newNote(75, 200);
+            //$('#edit1').html('Click text to edit.');
+        });
+
+        var DragDrop;
+    </script>
+
+    <div id="recycle_bin"></div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+/* --------------------------------------------------------------- */
+/**
+ * FILE NAME   : lms_dragdrop.css
+ * AUTHOR      : Ming Hua Shi
+ * SYNOPSIS    :
+ * DESCRIPTION : ORPLMS drag and drop CSS
+ * SEE ALSO    :
+ * VERSION     : 1.0 ($Revision: 3979 $)
+ * CREATED     : 20-Aug-2012
+ * LASTUPDATES : $Author: mhshi $ on $Date: 2012-06-18 11:29:57 +0800 (Mon, 18 Jun 2012) $
+ * UPDATES     :
+ * NOTES       :
+ */
+/* ---------------------------------------------------------------
+   @(#)lms_dragdrop.css              1.0 20-Aug-2012
+   by Ming Hua Shi
+
+
+   Copyright by ASTRI, Ltd., (ECE Group)
+   All rights reserved.
+
+   This software is the confidential and proprietary information
+   of ASTRI, Ltd. ("Confidential Information").  You shall not
+   disclose such Confidential Information and shall use it only
+   in accordance with the terms of the license agreement you
+   entered into with ASTRI.
+   --------------------------------------------------------------- */
+
+
+/* ===============================================================
+   Begin of lms_dragdrop.css
+   =============================================================== */
+
+.orplms_dgdp_item_check_icon{
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    z-index: 999;
+    background-image: url('../images/dragdrop/check.png');
+}
+
+.orplms_dgdp_item_delegate_small,
+.orplms_dgdp_item_delegate_large{
+    display: none;
+    position: absolute;
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.orplms_dgdp_item_delegate_small{
+    height: 64px;
+    width: 64px;
+    line-height: 64px;
+    background-image: url('../images/dragdrop/delegate_64.png');
+}
+.orplms_dgdp_item_delegate_large{
+    height: 128px;
+    width: 128px;
+    line-height: 128px;
+    background-image: url('../images/dragdrop/delegate_128.png');
+}
